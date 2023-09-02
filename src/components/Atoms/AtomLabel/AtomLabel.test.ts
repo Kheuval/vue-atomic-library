@@ -1,27 +1,25 @@
-import { expect, test, vitest } from "vitest";
 import { mount } from "@vue/test-utils";
-import AtomImage from "./AtomImage.vue";
+import { expect, test, vitest } from "vitest";
+import AtomLabel from "./AtomLabel.vue";
 import { runClassNamesTests } from "@/components/ClassNamesTest";
 
 test("mount component", async () => {
-  const wrapper = mount(AtomImage, {
+  const wrapper = mount(AtomLabel, {
     props: {
-      src: "logo.png",
-      alt: "Logo",
+      id: "username",
+      content: "Identifiant",
     },
   });
 
-  const img = wrapper.get("img");
-
-  expect(img.attributes("src")).toBe("logo.png");
-  expect(img.attributes("alt")).toBe("Logo");
+  expect(wrapper.get("label").attributes("for")).toBe("username");
+  expect(wrapper.html()).toContain("Identifiant");
 });
 
-runClassNamesTests(AtomImage, "img", { src: "logo.png", alt: "Logo" });
+runClassNamesTests(AtomLabel, "label", { id: "username", content: "Identifiant" });
 
 test("mount fails", () => {
   const spy = vitest.spyOn(global.console, "warn").mockImplementation(() => {});
-  mount(AtomImage);
+  mount(AtomLabel);
 
   expect(spy).toHaveBeenCalled();
   expect(spy.mock.calls[0][0]).toContain("[Vue warn]: Missing required prop");
