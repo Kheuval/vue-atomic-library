@@ -1,11 +1,16 @@
 import { expect, test, vitest } from "vitest";
-import { mount } from "@vue/test-utils";
+import { mount, RouterLinkStub } from "@vue/test-utils";
 import AtomLink from "./AtomLink.vue";
 import { router } from "@/router/index";
 import { runClassNamesTests } from "@/components/ClassNamesTest";
 
 test("mount component with a slot", () => {
   const wrapper = mount(AtomLink, {
+    global: {
+      stubs: {
+        RouterLink: RouterLinkStub,
+      },
+    },
     props: {
       to: "/",
     },
@@ -14,13 +19,20 @@ test("mount component with a slot", () => {
     },
   });
 
-  const routerLink = wrapper.get("routerlink");
+  const routerLink = wrapper.findComponent(RouterLinkStub);
 
   expect(routerLink.html()).toContain("Homepage");
-  expect(routerLink.attributes("to")).toBe("/");
+  expect(routerLink.props("to")).toBe("/");
 });
 
-runClassNamesTests(AtomLink, "routerlink", { to: "/" });
+runClassNamesTests(AtomLink, "a", {
+  global: {
+    stubs: {
+      RouterLink: RouterLinkStub,
+    },
+  },
+  props: { to: "/" },
+});
 
 test("mount fails", () => {
   const spy = vitest.spyOn(global.console, "warn").mockImplementation(() => {});
@@ -31,9 +43,15 @@ test("mount fails", () => {
 });
 
 test("emit click event", async () => {
-  const wrapper = mount(AtomLink);
+  const wrapper = mount(AtomLink, {
+    global: {
+      stubs: {
+        RouterLink: RouterLinkStub,
+      },
+    },
+  });
 
-  await wrapper.get("routerlink").trigger("click");
+  await wrapper.findComponent(RouterLinkStub).trigger("click");
 
   expect(wrapper.emitted("click")).toBeTruthy();
 });

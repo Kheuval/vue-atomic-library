@@ -17,7 +17,7 @@ test("mount component", async () => {
   expect(img.attributes("alt")).toBe("Logo");
 });
 
-runClassNamesTests(AtomImage, "img", { src: "logo.png", alt: "Logo" });
+runClassNamesTests(AtomImage, "img", { props: { src: "logo.png", alt: "Logo" } });
 
 test("mount fails", () => {
   const spy = vitest.spyOn(global.console, "warn").mockImplementation(() => {});

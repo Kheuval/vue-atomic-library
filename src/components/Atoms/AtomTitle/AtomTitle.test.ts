@@ -19,7 +19,7 @@ test("mount component with a slot", () => {
   expect(title.element.tagName).toBe("H1");
 });
 
-runClassNamesTests(AtomTitle, "h1", { tag: "h1" });
+runClassNamesTests(AtomTitle, "h1", { props: { tag: "h1" } });
 
 test("mount fails", () => {
   const spy = vitest.spyOn(global.console, "warn").mockImplementation(() => {});
