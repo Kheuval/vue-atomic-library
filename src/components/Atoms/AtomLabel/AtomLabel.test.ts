@@ -15,7 +15,7 @@ test("mount component", async () => {
   expect(wrapper.html()).toContain("Identifiant");
 });
 
-runClassNamesTests(AtomLabel, "label", { id: "username", content: "Identifiant" });
+runClassNamesTests(AtomLabel, "label", { props: { id: "username", content: "Identifiant" } });
 
 test("mount fails", () => {
   const spy = vitest.spyOn(global.console, "warn").mockImplementation(() => {});
